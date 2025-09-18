@@ -89,10 +89,11 @@ def parseArgs(argv):
     try:
         # Setup argument parser
         parser = ArgumentParser(description=program_license, formatter_class=RawDescriptionHelpFormatter)
-        parser.add_argument("-f", "--fasta_file", dest="fastafile", action="store", help="fasta file for which you want to calc GC% [default: %(default)s]")
+        parser.add_argument("-f", "--fasta_file", dest="fastafile", action="store", help="fasta file for which you want to calc GC percent [default: %(default)s]")
         parser.add_argument("-s", "--species_code", dest="speciescode", action="store", help="three character species code [default: %(default)s]")
         parser.add_argument("-b", "--seed_begin", dest="seedbegin", action="store", help="(one based) begin nucleotide position [default: %(default)s]")
         parser.add_argument("-e", "--seed_end", dest="seedend", action="store", help="(one based) end nucleotide position [default: %(default)s]")
+
 
         # Process arguments
         args = parser.parse_args()
@@ -101,6 +102,9 @@ def parseArgs(argv):
         global speciesCode
         global seedBegin
         global seedEnd
+
+
+
 
         fastaFile = args.fastafile
         speciesCode = args.speciescode
@@ -145,6 +149,7 @@ def parseArgs(argv):
         sys.stderr.write(program_name + ": " + repr(e) + "\n")
         sys.stderr.write(indent + "  for help use --help")
         return 2
+
 
 
 def calcAverageGCPercent():
@@ -196,8 +201,11 @@ def getNucleotideFrequencyMatrix(uniqSeedSeqs):
     
     lntFrequencies = []
     n = 0
-    while n < seedEnd - seedBegin:
-        aCount, cCount, gCount, tCount = 0
+    while n < seedEnd - seedBegin+1:
+        aCount= 0
+        cCount= 0
+        gCount = 0
+        tCount = 0
         
         for uniqSeedSeq in uniqSeedSeqs:  
             nt = uniqSeedSeq[n]
